@@ -83,7 +83,7 @@ if exist %TEMP_PATH% del /F /Q %TEMP_PATH%
 echo Housekeep report for path %HOUSEKEEP_PATH% with files dated on or before %HOUSEKEEP_MONTH%/%HOUSEKEEP_YEAR%> %TEMP_PATH%
 echo ====================================================================================================>> %TEMP_PATH%
 
-REM Check if number of months before > month, then need to subtract 1 year
+REM Check if number of months before is greater than current month, then need to subtract 1 year
 if %HOUSEKEEP_MONTH% LEQ 0 (
 	set /A HOUSEKEEP_YEAR=%HOUSEKEEP_YEAR%-1
 	set /A HOUSEKEEP_MONTH=%HOUSEKEEP_MONTH%+12
