@@ -13,3 +13,6 @@ A report file ```housekeep_list_temp.txt``` will be generated, which lists all f
 Future developments
 -------------------
 1. Housekeeping of subdirectories of the specified folder.
+2. Removal of empty directories after housekeeping.
+3. Restoration of files and directories from Recycle Bin based on report file.
+3. Validation of input in the free format ```set /P``` input to prevent injection.
