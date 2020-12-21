@@ -8,7 +8,9 @@ It will prompt for 2 inputs:
 1. Folder path to housekeep, simply copy from Windows Explorer window. (Unfortunately, it does not support checking for subdirectories too, this will be added as a feature later.)
 2. Housekeep time, where the housekeep process will operate each file with 'Last Modified Time' before this time.
 
-A report file ```housekeep_list_temp.txt``` will be generated, which lists all files modified on or before the user's input time, and whether they are deleted.
+A report file ```housekeep_list_report.txt``` will be generated, which lists all files modified on or before the user's input time, and whether they are deleted.
+
+The test script ```test_housekeep.bat``` is my attempt at developing a JUnit-styled unit test aimed to test the logic of the script ```housekeep.bat```.
 
 Future developments
 -------------------
