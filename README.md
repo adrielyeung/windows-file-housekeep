@@ -23,6 +23,8 @@ It will prompt for 1-2 inputs:
 
 Log will be in the ```log``` folder at the parent directory of the folder to backup (with filename ```log_<backup_date>_<backup_time>```. It will compare the contents using SHA1 hash methods of the bytes within the before and after copy folder. The compare result is logged and shown on the console.
 
+The test script ```test_backup.bat``` is my attempt at developing a JUnit-styled unit test aimed to test the logic of the script ```backup_compare_hash.ps1```.
+
 Future developments
 -------------------
 1. Housekeeping of subdirectories of the specified folder.
