@@ -10,6 +10,7 @@ set TEST_SUB1_FILE=sub1.txt
 set TEST_SUB2=sub1\sub2
 set TEST_SUB2_FILE=sub2.txt
 set REPORT_PATH=backup_list_report.txt
+set TEMP_PATH=test_temp
 REM COUNT is the test number
 set COUNT=0
 REM CHECKPOINT_COUNT is the checkpoint number
@@ -17,7 +18,7 @@ set CHECKPOINT_COUNT=0
 
 echo TESTING START AT %DATE% %TIME%
 REM Set up
-if not exist temp\ mkdir temp\
+if not exist %TEMP_PATH% mkdir %TEMP_PATH%
 if exist %TEST_PATH% rmdir /s /q %TEST_PATH%
 mkdir %TEST_PATH%
 echo Test report of script %SCRIPT% performed at %DATE% %TIME% > %TEST_REPORT_FILE%
@@ -131,7 +132,7 @@ REM Commands which need to be run before starting each test
 set /A COUNT+=1
 REM At start of each test, reset checkpoint number to 0
 set CHECKPOINT_COUNT=0
-set TEMP_FILE=temp\test_temp_%COUNT%.txt
+set TEMP_FILE=%TEMP_PATH%\test_temp_%COUNT%.txt
 echo. > %TEMP_FILE%
 echo ===========================
 echo ===========================>> %TEST_REPORT_FILE%
