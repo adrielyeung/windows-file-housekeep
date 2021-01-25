@@ -3,6 +3,11 @@ Some utility Windows batch / Powershell script to housekeep files:
 1. Generate list of outdated files (files not modified for a period of time, as defined by user) with folder path as specified by user and prompt for deletion (```housekeep.bat```)
 2. Backup a Windows directory with path as specified by user, with choice of backing up subdirectories or not (```backup_compare_hash.ps1```).
 
+What's new - 25/1/2021
+----------------------
+1. Housekeeping of subdirectories of the specified folder.
+2. Removal of empty directories after housekeeping.
+
 How to use housekeep.bat
 ------------------------
 The script ```housekeep.bat``` can be downloaded to any directory and used.
@@ -27,7 +32,6 @@ The test script ```test_backup.bat``` is my attempt at developing a JUnit-styled
 
 Future developments
 -------------------
-1. Housekeeping of subdirectories of the specified folder.
-2. Removal of empty directories after housekeeping.
-3. Restoration of files and directories from Recycle Bin based on report file.
-4. Validation of input in the free format ```set /P``` input to prevent injection.
+1. Restoration of files and directories from Recycle Bin based on report file.
+2. Validation of input in the free format ```set /P``` input to prevent injection.
+3. Coverage code testing.
