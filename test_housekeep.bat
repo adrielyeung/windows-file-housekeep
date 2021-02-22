@@ -179,10 +179,10 @@ call :findstr_in_console "Use y to separate between year and month, e.g. 4y6, 0y
 call :findstr_in_console "Please input here: "
 call :end_test
 
-REM File deletion
+REM Simple file deletion
 :test10
 call :start_test
-REM Test 10 - Test not delete file
+REM Test 10 - Test not delete / recycle file
 set VALID_TIME=0y0
 set MONTH=%DATE:~3,2%
 REM Set up testing folder and file
@@ -194,11 +194,12 @@ REM Program running time
 call :program_run_pause 7
 REM Checkpoint 1 - Title in report file
 call :findstr_in_report "Housekeep report for path %TEST_PATH% with files dated on or before %MONTH:0=%/%DATE:~6,4%"
-REM Checkpoints 2-4 - File name and modified time shown properly, not showing deleted
+REM Checkpoints 2-5 - File name and modified time shown properly, not showing deleted
 call :findstr_in_report "%TEST_FILE%"
 call :findstr_in_report "Last modified date: %MODIFIED_DATE: =0% %MODIFIED_TIME: =0%"
 call :findstr_in_report "%TEST_FILE% deleted" V
-REM Checkpoint 5 - File is found
+call :findstr_in_report "%TEST_FILE% recycled" V
+REM Checkpoint 6 - File is found
 if exist %TEST_PATH%\%TEST_FILE% (call :write_report_console passed) else (call :write_report_console FAILED)
 call :end_test
 
@@ -226,7 +227,7 @@ call :end_test
 
 :test12
 call :start_test
-REM Test 12 - Test no file to delete, all files are after housekeep time
+REM Test 12 - Test no file to delete / recycle, all files are after housekeep time
 set VALID_TIME=0y1
 set /A CHECK_MONTH=%DATE:~3,2%-1
 if %CHECK_MONTH% LEQ 0 (
@@ -242,11 +243,12 @@ REM Program running time
 call :program_run_pause 7
 REM Checkpoint 1 - Title in report file
 call :findstr_in_report "Housekeep report for path %TEST_PATH% with files dated on or before %CHECK_MONTH%/%CHECK_YEAR%"
-REM Checkpoints 2-4 - File name and modified time shown properly, not showing deleted
+REM Checkpoints 2-5 - File name and modified time shown properly, not showing deleted
 call :findstr_in_report "%TEST_FILE%" V
 call :findstr_in_report "Last modified date: %MODIFIED_DATE: =0% %MODIFIED_TIME: =0%" V
 call :findstr_in_report "%TEST_FILE% deleted" V
-REM Checkpoint 5 - File is found
+call :findstr_in_report "%TEST_FILE% recycled" V
+REM Checkpoint 6 - File is found
 if exist %TEST_PATH%\%TEST_FILE% (call :write_report_console passed) else (call :write_report_console FAILED)
 call :end_test
 
@@ -303,16 +305,17 @@ REM Program running time
 call :program_run_pause 7
 REM Checkpoint 1 - Title in report file
 call :findstr_in_report "Housekeep report for path %TEST_PATH% with files dated on or before %MONTH:0=%/%DATE:~6,4%"
-REM Checkpoints 2-4 - File name and modified time shown properly, not showing deleted
+REM Checkpoints 2-5 - File name and modified time shown properly, not showing deleted
 call :findstr_in_report "%TEST_FILE%" V
 call :findstr_in_report "Last modified date: %MODIFIED_DATE: =0% %MODIFIED_TIME: =0%" V
 call :findstr_in_report "%TEST_FILE% deleted" V
+call :findstr_in_report "%TEST_FILE% recycled" V
 call :end_test
 
 REM Subdirectory file removal
 :test16
 call :start_test
-REM Test 16 - Test with subfolder, not delete file in subdirectory
+REM Test 16 - Test with subfolder, not delete / recycle file in subdirectory
 set VALID_TIME=0y0
 set MONTH=%DATE:~3,2%
 REM Set up testing folder and file
@@ -329,13 +332,14 @@ REM Checkpoints 2-4 - For file in dir, file name and modified time shown properl
 call :findstr_in_report "%TEST_FILE%"
 call :findstr_in_report "Last modified date: %MODIFIED_DATE: =0% %MODIFIED_TIME: =0%"
 call :findstr_in_report "%TEST_FILE% deleted"
-REM Checkpoints 5-7 - For file in subdir, file name and modified time shown properly, not showing deleted
+REM Checkpoints 5-8 - For file in subdir, file name and modified time shown properly, not showing deleted
 call :findstr_in_report "%TEST_SUBDIR_FILE%"
 call :findstr_in_report "Last modified date: %SUBDIR_MODIFIED_DATE: =0% %SUBDIR_MODIFIED_TIME: =0%"
 call :findstr_in_report "%TEST_SUBDIR_FILE% deleted" V
-REM Checkpoint 8 - File in dir is not found
+call :findstr_in_report "%TEST_SUBDIR_FILE% recycled" V
+REM Checkpoint 9 - File in dir is not found
 if exist %TEST_PATH%\%TEST_FILE% (call :write_report_console FAILED) else (call :write_report_console passed)
-REM Checkpoint 9 - File in subdir is found
+REM Checkpoint 10 - File in subdir is found
 if exist %TEST_SUBDIR_PATH%\%TEST_SUBDIR_FILE% (call :write_report_console passed) else (call :write_report_console FAILED)
 call :end_test
 
@@ -387,10 +391,11 @@ call :findstr_in_report "Housekeep report for path %TEST_PATH% with files dated 
 REM Checkpoints 2-3 - For file in dir, file name and modified time shown properly, showing deleted
 call :findstr_in_report "%TEST_FILE%"
 call :findstr_in_report "%TEST_FILE% deleted"
-REM Checkpoints 4-5 - For file in subdir, file name and modified time not shown
+REM Checkpoints 4-6 - For file in subdir, file name and modified time not shown
 call :findstr_in_report "%TEST_SUBDIR_FILE%" V
 call :findstr_in_report "%TEST_SUBDIR_FILE% deleted" V
-REM Checkpoint 6 - File in subdir is not found
+call :findstr_in_report "%TEST_SUBDIR_FILE% recycled" V
+REM Checkpoint 7 - File in subdir is not found
 if exist %TEST_PATH%\%TEST_FILE% (call :write_report_console FAILED) else (call :write_report_console passed)
 call :end_test
 
@@ -412,12 +417,13 @@ call :findstr_in_report "Housekeep report for path %TEST_PATH% with files dated 
 REM Checkpoints 2-3 - For file in dir, file name and modified time shown properly, showing deleted
 call :findstr_in_report "%TEST_FILE%"
 call :findstr_in_report "%TEST_FILE% deleted"
-REM Checkpoints 4-5 - For file in subdir, file name and modified time not shown
+REM Checkpoints 4-6 - For file in subdir, file name and modified time not shown
 call :findstr_in_report "%TEST_SUBDIR_FILE%" V
 call :findstr_in_report "%TEST_SUBDIR_FILE% deleted" V
-REM Checkpoint 6 - File in dir is not found
+call :findstr_in_report "%TEST_SUBDIR_FILE% recycled" V
+REM Checkpoint 7 - File in dir is not found
 if exist %TEST_PATH%\%TEST_FILE% (call :write_report_console FAILED) else (call :write_report_console passed)
-REM Checkpoint 7 - File in subdir is found
+REM Checkpoint 8 - File in subdir is found
 if exist %TEST_SUBDIR_PATH%\%TEST_SUBDIR_FILE% (call :write_report_console passed) else (call :write_report_console FAILED)
 call :end_test
 
@@ -498,13 +504,126 @@ call :findstr_in_report "Housekeep report for path %TEST_PATH% with files dated 
 REM Checkpoints 2-3 - For file in dir, file name and modified time shown properly, showing deleted
 call :findstr_in_report "%TEST_FILE%"
 call :findstr_in_report "%TEST_FILE% deleted"
-REM Checkpoints 4-5 - For file in subdir, file name and modified time shown properly, showing not deleted
+REM Checkpoints 4-6 - For file in subdir, file name and modified time shown properly, showing not deleted
 call :findstr_in_report "%TEST_SUBDIR_FILE%"
 call :findstr_in_report "%TEST_SUBDIR_FILE% deleted" V
+call :findstr_in_report "%TEST_SUBDIR_FILE% recycled" V
+REM Checkpoint 7 - File in dir is not found
+if exist %TEST_PATH%\%TEST_FILE% (call :write_report_console FAILED) else (call :write_report_console passed)
+REM Checkpoint 8 - File in subdir is found
+if exist %TEST_SUBDIR_PATH%\%TEST_SUBDIR_FILE% (call :write_report_console passed) else (call :write_report_console FAILED)
+REM Checkpoint 9 - Subdirectory subdir is not removed
+if exist %TEST_SUBDIR_PATH% (call :write_report_console passed) else (call :write_report_console FAILED)
+call :end_test
+
+REM Simple file recycling
+:test23
+call :start_test
+REM Test 23 - Test recycle file
+set VALID_TIME=0y0
+set MONTH=%DATE:~3,2%
+REM Set up testing folder and file
+call :set_test_file
+
+REM Test call script in separate window, redirect all stdout output to temp file
+start cmd /c "echo YYRNN|call %SCRIPT% %TEST_PATH% %VALID_TIME%"^> %TEMP_FILE%
+REM Program running time
+call :program_run_pause 7
+REM Checkpoint 1 - Title in report file
+call :findstr_in_report "Housekeep report for path %TEST_PATH% with files dated on or before %MONTH:0=%/%DATE:~6,4%"
+REM Checkpoints 2-4 - File name and modified time shown properly, not showing deleted
+call :findstr_in_report "%TEST_FILE%"
+call :findstr_in_report "Last modified date: %MODIFIED_DATE: =0% %MODIFIED_TIME: =0%"
+call :findstr_in_report "%TEST_FILE% recycled"
+REM Checkpoint 5 - File is not found
+if not exist %TEST_PATH%\%TEST_FILE% (call :write_report_console passed) else (call :write_report_console FAILED)
+call :end_test
+
+REM Subdirectory file recycling
+:test24
+call :start_test
+REM Test 24 - Test with subfolder, recycle file in subdirectory
+set VALID_TIME=0y0
+set MONTH=%DATE:~3,2%
+REM Set up testing folder and file
+call :set_test_file
+call :set_subdir_test_file
+
+REM Test call script in separate window, redirect all stdout output to temp file
+start cmd /c "echo YYYYRN|call %SCRIPT% %TEST_PATH% %VALID_TIME%"^> %TEMP_FILE%
+REM Program running time
+call :program_run_pause 7
+REM Checkpoint 1 - Title in report file
+call :findstr_in_report "Housekeep report for path %TEST_PATH% with files dated on or before %MONTH:0=%/%DATE:~6,4%"
+REM Checkpoints 2-4 - For file in dir, file name and modified time shown properly, showing deleted
+call :findstr_in_report "%TEST_FILE%"
+call :findstr_in_report "Last modified date: %MODIFIED_DATE: =0% %MODIFIED_TIME: =0%"
+call :findstr_in_report "%TEST_FILE% deleted"
+REM Checkpoints 5-7 - For file in subdir, file name and modified time shown properly, showing deleted
+call :findstr_in_report "%TEST_SUBDIR_FILE%"
+call :findstr_in_report "Last modified date: %SUBDIR_MODIFIED_DATE: =0% %SUBDIR_MODIFIED_TIME: =0%"
+call :findstr_in_report "%TEST_SUBDIR_FILE% recycled"
+REM Checkpoint 8 - File in dir is not found
+if exist %TEST_PATH%\%TEST_FILE% (call :write_report_console FAILED) else (call :write_report_console passed)
+REM Checkpoint 9 - File in subdir is not found
+if exist %TEST_SUBDIR_PATH%\%TEST_SUBDIR_FILE% (call :write_report_console FAILED) else (call :write_report_console passed)
+call :end_test
+
+REM Subdirectory folder removal
+:test25
+call :start_test
+REM Test 25 - Test with empty subfolder, deleted
+set VALID_TIME=0y0
+set MONTH=%DATE:~3,2%
+REM Set up testing folder and file
+call :set_test_file
+call :set_subdir_test_file
+
+REM Test call script in separate window, redirect all stdout output to temp file
+start cmd /c "echo YYYYRY|call %SCRIPT% %TEST_PATH% %VALID_TIME%"^> %TEMP_FILE%
+REM Program running time
+call :program_run_pause 7
+REM Checkpoint 1 - Title in report file
+call :findstr_in_report "Housekeep report for path %TEST_PATH% with files dated on or before %MONTH:0=%/%DATE:~6,4%"
+REM Checkpoints 2-3 - For file in dir, file name and modified time shown properly, showing deleted
+call :findstr_in_report "%TEST_FILE%"
+call :findstr_in_report "%TEST_FILE% deleted"
+REM Checkpoints 4-5 - For file in subdir, file name and modified time shown properly, showing deleted
+call :findstr_in_report "%TEST_SUBDIR_FILE%"
+call :findstr_in_report "%TEST_SUBDIR_FILE% recycled"
 REM Checkpoint 6 - File in dir is not found
 if exist %TEST_PATH%\%TEST_FILE% (call :write_report_console FAILED) else (call :write_report_console passed)
-REM Checkpoint 7 - File in subdir is found
-if exist %TEST_SUBDIR_PATH%\%TEST_SUBDIR_FILE% (call :write_report_console passed) else (call :write_report_console FAILED)
+REM Checkpoint 7 - File in subdir is not found
+if exist %TEST_SUBDIR_PATH%\%TEST_SUBDIR_FILE% (call :write_report_console FAILED) else (call :write_report_console passed)
+REM Checkpoint 8 - Subdirectory subdir is removed
+if exist %TEST_SUBDIR_PATH% (call :write_report_console FAILED) else (call :write_report_console passed)
+call :end_test
+
+:test26
+call :start_test
+REM Test 26 - Test with empty subfolder, not deleted
+set VALID_TIME=0y0
+set MONTH=%DATE:~3,2%
+REM Set up testing folder and file
+call :set_test_file
+call :set_subdir_test_file
+
+REM Test call script in separate window, redirect all stdout output to temp file
+start cmd /c "echo YYYYRN|call %SCRIPT% %TEST_PATH% %VALID_TIME%"^> %TEMP_FILE%
+REM Program running time
+call :program_run_pause 7
+REM Checkpoint 1 - Title in report file
+call :findstr_in_report "Housekeep report for path %TEST_PATH% with files dated on or before %MONTH:0=%/%DATE:~6,4%"
+REM Checkpoints 2-3 - For file in dir, file name and modified time shown properly, showing deleted
+call :findstr_in_report "%TEST_FILE%"
+call :findstr_in_report "%TEST_FILE% deleted"
+REM Checkpoints 4-5 - For file in subdir, file name and modified time shown properly, showing deleted
+call :findstr_in_report "%TEST_SUBDIR_FILE%"
+call :findstr_in_report "%TEST_SUBDIR_FILE% recycled"
+REM Checkpoint 6 - File in dir is not found
+if exist %TEST_PATH%\%TEST_FILE% (call :write_report_console FAILED) else (call :write_report_console passed)
+REM Checkpoint 7 - File in subdir is not found
+if exist %TEST_SUBDIR_PATH%\%TEST_SUBDIR_FILE% (call :write_report_console FAILED) else (call :write_report_console passed)
 REM Checkpoint 8 - Subdirectory subdir is not removed
 if exist %TEST_SUBDIR_PATH% (call :write_report_console passed) else (call :write_report_console FAILED)
 call :end_test

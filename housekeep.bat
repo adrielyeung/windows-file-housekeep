@@ -90,6 +90,7 @@ for /f "delims=y tokens=1,2,*" %%a in ("!HOUSEKEEP_TIME_BEFORE!") do (
 	)
 	set /A HOUSEKEEP_MONTH=%DATE:~3,2%-!HOUSEKEEP_MONTH_BEFORE!
 )
+
 goto :confirm
 
 :error
@@ -183,15 +184,20 @@ for /f "tokens=1,2,3,4,*" %%a in ('dir /o:d /a-d %1 ^| findstr /C:/') do (
 	if !LAST_MODIFIED_YEAR! LSS %HOUSEKEEP_YEAR% (
 		echo %%d>> %REPORT_PATH%
 		echo Last modified date: !LAST_MODIFIED_DATE! %%b>> %REPORT_PATH%
-		choice /M:"File %%d with last modified date !LAST_MODIFIED_DATE! %%b, delete "
+		choice /M:"File %%d with last modified date !LAST_MODIFIED_DATE! %%b, delete (Y), recycle (R) or cancel (N) " /C:YRN
+		
 	) else if "!LAST_MODIFIED_YEAR!"=="%HOUSEKEEP_YEAR%" (
 		if !LAST_MODIFIED_MONTH! LEQ %HOUSEKEEP_MONTH% (
 			echo %%d>> %REPORT_PATH%
 			echo Last modified date: !LAST_MODIFIED_DATE! %%b>> %REPORT_PATH%
-			choice /M:"File %%d with last modified date !LAST_MODIFIED_DATE! %%b, delete "
+			choice /M:"File %%d with last modified date !LAST_MODIFIED_DATE! %%b, delete (Y), recycle (R) or cancel (N) " /C:YRN
 		)
 	)
-
+	
+	if "!errorlevel!"=="2" (
+		recycle -f %1\%%d && echo %%d recycled && echo %%d recycled>> %REPORT_PATH%
+	)
+	
 	if "!errorlevel!"=="1" (
 		del /F /Q %1\%%d && echo %%d deleted && echo %%d deleted>> %REPORT_PATH%
 	)
