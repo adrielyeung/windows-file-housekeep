@@ -3,10 +3,9 @@ Some utility Windows batch / Powershell script to housekeep files:
 1. Generate list of outdated files (files not modified for a period of time, as defined by user) with folder path as specified by user and prompt for deletion (```housekeep.bat```)
 2. Backup a Windows directory with path as specified by user, with choice of backing up subdirectories or not (```backup_compare_hash.ps1```).
 
-What's new - 25/1/2021
+What's new - 22/2/2021
 ----------------------
-1. Housekeeping of subdirectories of the specified folder.
-2. Removal of empty directories after housekeeping.
+1. Add option to recycle files instead of deleting them.
 
 How to use housekeep.bat
 ------------------------
@@ -14,6 +13,8 @@ The script ```housekeep.bat``` can be downloaded to any directory and used.
 It will prompt for 2 inputs:
 1. Folder path to housekeep, simply copy from Windows Explorer window. (Unfortunately, it does not support checking for subdirectories too, this will be added as a feature later.)
 2. Housekeep time, where the housekeep process will operate each file with 'Last Modified Time' before this time.
+
+Each file valid for housekeeping will be prompted, with options delete (Y), recycle (R) or cancel (N) (remain in the same directory).
 
 A report file ```housekeep_list_report.txt``` will be generated, which lists all files modified on or before the user's input time, and whether they are deleted.
 
