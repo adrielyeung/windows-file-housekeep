@@ -5,7 +5,7 @@ Some utility Windows batch / Powershell script to housekeep files:
 
 What's new - 22/2/2021
 ----------------------
-1. Add option to recycle files instead of deleting them.
+1. Add option to recycle files instead of deleting them (Recycle feature requires the use of ```Recycle.exe``` utility provided by CMDUtils (Please download at http://www.maddogsw.com/cmdutils/)).
 
 How to use housekeep.bat
 ------------------------
@@ -14,7 +14,7 @@ It will prompt for 2 inputs:
 1. Folder path to housekeep, simply copy from Windows Explorer window. (Unfortunately, it does not support checking for subdirectories too, this will be added as a feature later.)
 2. Housekeep time, where the housekeep process will operate each file with 'Last Modified Time' before this time.
 
-Each file valid for housekeeping will be prompted, with options delete (Y), recycle (R) or cancel (N) (remain in the same directory).
+Each file valid for housekeeping will be prompted, with options delete (Y), recycle (R) or cancel (N) (remain in the same directory). (Recycle feature requires the use of ```Recycle.exe``` utility provided by CMDUtils (Please download at http://www.maddogsw.com/cmdutils/))
 
 A report file ```housekeep_list_report.txt``` will be generated, which lists all files modified on or before the user's input time, and whether they are deleted.
 
